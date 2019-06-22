@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+.container-house {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  text-align: center;
+  background-color: aqua;
+}
+
+.house-hand {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding-bottom: 200px;
+  padding-top: 10px;
+}
+
+.card {
+  padding: 10px 20px;
+}
+
+.player-hand {
+  padding-top: 10px;
+  display: flex;
+}
+
+.container-player {
+  background-color: #d1a3af;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+}
+
+.player-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.player-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top-btn {
+  padding-bottom: 10px;
+}
+
+.bottom-btn {
+  padding-bottom: 10px;
+}
+.same-width {
+  width: 190px;
+}
+
+.chip-container {
+  text-align: left;
+}
+
+.chips {
+  padding: 20px 0;
+}
+
+.chip-btn {
+  background-color: Transparent;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border-color: transparent;
+  font-size: 18px;
+}
+
+.btn-50 {
+  background-image: url("PokerSet/PNGs/chips/small/chip_white_top.png");
+}
+
+.btn-100 {
+  background-image: url("PokerSet/PNGs/chips/small/chip_red_top.png");
+}
+
+.btn-500 {
+  background-image: url("PokerSet/PNGs/chips/small/chip_gray_top.png");
+}
+
+.btn-10000 {
+  background-image: url("PokerSet/PNGs/chips/small/chip_green_top.png");
+}
+
+.chip-btn:focus {
+  outline: none;
+}
+
+.chip-btn:hover {
+  border: 3px solid #f7e572;
+}
+
+.action:focus {
+  outline: 0;
+}
+
+/* Button Styling from online editor*/
+.action {
+  -moz-box-shadow: 3px 4px 0px 0px #8a2a21;
+  -webkit-box-shadow: 3px 4px 0px 0px #8a2a21;
+  box-shadow: 3px 4px 0px 0px #3f3e3f;
+  background-color: #535254;
+  -moz-border-radius: 42px;
+  -webkit-border-radius: 42px;
+  border-radius: 42px;
+  border: 1px solid #777677;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 20px;
+  padding: 8px 28px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #535254;
+}
+.action:hover {
+  background-color: #77b55a;
+}
+.action:active {
+  position: relative;
+  top: 1px;
+}
