@@ -6,34 +6,40 @@ body {
   font-family: "Roboto", sans-serif;
 }
 .container-house {
-  width: 100%;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
   text-align: center;
-  background-color: aqua;
+  background-color: #3f3e3f;
+  color: #fff;
 }
 
 .house-hand {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  padding-bottom: 200px;
+  /* padding-bottom: 200px; */
   padding-top: 10px;
 }
 
 .card {
-  padding: 10px 20px;
+  width: 132px;
+  height: 210px;
+  background-image: url("./PokerSet/PNGs/cards/Set_B/card_selected.png");
+  background-repeat: no-repeat;
+  /* background-size: cover; */
+  margin: 30px;
 }
 
 .player-hand {
   padding-top: 10px;
   display: flex;
+  margin-bottom: 50px;
 }
 
 .container-player {
-  background-color: #d1a3af;
+  background-color: #05a8aa;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -61,10 +67,16 @@ body {
 }
 .same-width {
   width: 190px;
+  margin: 5px;
 }
 
 .chip-container {
   text-align: left;
+  color: #fff;
+}
+
+.chip-container label {
+  font-size: 20px;
 }
 
 .chips {
@@ -78,11 +90,13 @@ body {
   height: 100px;
   border-radius: 50%;
   border-color: transparent;
-  font-size: 18px;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
 }
 
 .btn-50 {
-  background-image: url("PokerSet/PNGs/chips/small/chip_white_top.png");
+  background-image: url("PokerSet/PNGs/chips/small/chip_pink_top.png");
 }
 
 .btn-100 {
@@ -90,7 +104,7 @@ body {
 }
 
 .btn-500 {
-  background-image: url("PokerSet/PNGs/chips/small/chip_gray_top.png");
+  background-image: url("PokerSet/PNGs/chips/small/chip_lightblue_top.png");
 }
 
 .btn-10000 {
@@ -102,7 +116,12 @@ body {
 }
 
 .chip-btn:hover {
-  border: 3px solid #f7e572;
+  border: 3px solid #fcaf3b;
+}
+
+.chip-btn:active {
+  position: relative;
+  top: 1px;
 }
 
 .action:focus {
@@ -115,21 +134,18 @@ body {
   -webkit-box-shadow: 3px 4px 0px 0px #8a2a21;
   box-shadow: 3px 4px 0px 0px #3f3e3f;
   background-color: #535254;
-  -moz-border-radius: 42px;
-  -webkit-border-radius: 42px;
   border-radius: 42px;
-  border: 1px solid #777677;
-  display: inline-block;
+  border: none;
   cursor: pointer;
   color: #ffffff;
-  font-family: Arial;
   font-size: 20px;
   padding: 8px 28px;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #535254;
+  /* text-shadow: 0px 1px 0px #535254; */
 }
 .action:hover {
-  background-color: #77b55a;
+  background-color: #fcaf3b;
+  color: #3f3e3f;
 }
 .action:active {
   position: relative;
