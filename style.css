@@ -5,6 +5,14 @@ body {
   padding: 0;
   font-family: "Roboto", sans-serif;
 }
+
+h2 {
+  border-bottom: 3px solid #60f7f2;
+  box-shadow: 0 10px 10px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px 40px;
+  border-radius: 2px;
+  color: #60f7f2;
+}
 .container-house {
   display: flex;
   flex-direction: column;
@@ -12,7 +20,7 @@ body {
   align-items: center;
   text-align: center;
   background-color: #3f3e3f;
-  color: #fff;
+  color: #f4fcfa;
 }
 
 .house-hand {
@@ -25,11 +33,12 @@ body {
 
 .card {
   width: 132px;
-  height: 210px;
-  background-image: url("./PokerSet/PNGs/cards/Set_B/small/card_b_da.png");
+  height: 201px;
+  background-image: url("./PokerSet/PNGs/cards/Set_B/small/card_b_ca.png");
   background-repeat: no-repeat;
   /* background-size: cover; */
   margin: 30px;
+  box-shadow: 0px 10px 10px 10px rgba(0, 0, 0, 0.2);
 }
 
 .player-hand {
@@ -73,7 +82,7 @@ body {
 
 .chip-container {
   text-align: left;
-  color: #fff;
+  color: #f4fcfa;
 }
 
 .chip-container label {
@@ -83,12 +92,14 @@ body {
 #chip-count {
   background-color: #3f3e3f;
   font-size: 23px;
-  padding: 20px 280px 15px 10px;
-  border-radius: 15px;
+  padding: 20px 283px 15px 15px;
+  border-radius: 25px;
+  color: #60f7f2;
+  box-shadow: 0 10px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 .chips {
-  padding: 45px 0 20px 0;
+  padding: 100px 0 20px 0;
 }
 
 .chip-btn {
@@ -97,26 +108,27 @@ body {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border-color: transparent;
+  border: none;
   font-size: 16px;
-  color: #fff;
+  color: #f4fcfa;
   cursor: pointer;
+  box-shadow: 0 10px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 .btn-50 {
-  background-image: url("PokerSet/PNGs/chips/small/chip_pink_top.png");
+  background-image: url("PokerSet/PNGs/chips/small/chip_gray_top.png");
 }
 
 .btn-100 {
-  background-image: url("PokerSet/PNGs/chips/small/chip_red_top.png");
+  background-image: url("PokerSet/PNGs/chips/small/chip_gray_top.png");
 }
 
 .btn-500 {
-  background-image: url("PokerSet/PNGs/chips/small/chip_lightblue_top.png");
+  background-image: url("PokerSet/PNGs/chips/small/chip_gray_top.png");
 }
 
 .btn-10000 {
-  background-image: url("PokerSet/PNGs/chips/small/chip_green_top.png");
+  background-image: url("PokerSet/PNGs/chips/small/chip_gray_top.png");
 }
 
 .chip-btn:focus {
@@ -124,7 +136,7 @@ body {
 }
 
 .chip-btn:hover {
-  border: 3px solid #fcaf3b;
+  border: 3px solid #60f7f2;
 }
 
 .chip-btn:active {
@@ -138,24 +150,43 @@ body {
 
 /* Button Styling from online editor*/
 .action {
-  -moz-box-shadow: 3px 4px 0px 0px #8a2a21;
-  -webkit-box-shadow: 3px 4px 0px 0px #8a2a21;
-  box-shadow: 3px 4px 0px 0px #3f3e3f;
+  box-shadow: 0px 5px 0px 0px #3f3e3f;
   background-color: #535254;
-  border-radius: 42px;
+  border-radius: 40px;
   border: none;
   cursor: pointer;
-  color: #ffffff;
+  color: #60f7f2;
   font-size: 20px;
   padding: 8px 28px;
   text-decoration: none;
   /* text-shadow: 0px 1px 0px #535254; */
 }
 .action:hover {
-  background-color: #fcaf3b;
+  background-color: #60f7f2;
   color: #3f3e3f;
 }
 .action:active {
   position: relative;
   top: 1px;
 }
+
+input,
+label,
+textarea {
+  font-family: "Ubuntu", sans-serif;
+  display: inline;
+  margin: 10px;
+  padding: 15px 0;
+  border: none;
+  font-size: 22px;
+  background: transparent;
+  border-bottom: 3px solid #60f7f2;
+  color: #fff;
+}
+
+input:focus {
+  outline: 0;
+}
+/* Question */
+
+/* Underline and Placeholder */
