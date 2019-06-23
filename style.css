@@ -43,7 +43,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 50px 50px;
+  padding: 0px 50px 50px 50px;
 }
 
 .player-options {
@@ -51,6 +51,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-top: 40px;
 }
 .player-buttons {
   display: flex;
@@ -79,8 +80,15 @@ body {
   font-size: 20px;
 }
 
+#chip-count {
+  background-color: #3f3e3f;
+  font-size: 23px;
+  padding: 20px 280px 15px 10px;
+  border-radius: 15px;
+}
+
 .chips {
-  padding: 20px 0;
+  padding: 45px 0 20px 0;
 }
 
 .chip-btn {
