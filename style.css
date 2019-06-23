@@ -26,7 +26,7 @@ body {
 .card {
   width: 132px;
   height: 210px;
-  background-image: url("./PokerSet/PNGs/cards/Set_B/card_selected.png");
+  background-image: url("./PokerSet/PNGs/cards/Set_B/small/card_b_da.png");
   background-repeat: no-repeat;
   /* background-size: cover; */
   margin: 30px;
@@ -43,7 +43,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 50px;
+  padding: 50px 50px;
 }
 
 .player-options {
