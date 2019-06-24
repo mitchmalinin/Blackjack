@@ -33,12 +33,13 @@ h2 {
 
 .card {
   width: 132px;
-  height: 201px;
-  background-image: url("./PokerSet/PNGs/cards/Set_B/small/card_b_ca.png");
+  height: 205px;
+  background-image: none;
   background-repeat: no-repeat;
   /* background-size: cover; */
   margin: 30px;
   box-shadow: 0px 10px 10px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
 
 .player-hand {
@@ -81,7 +82,7 @@ h2 {
 }
 
 .chip-container {
-  text-align: left;
+  text-align: center;
   color: #f4fcfa;
 }
 
@@ -92,14 +93,16 @@ h2 {
 #chip-count {
   background-color: #3f3e3f;
   font-size: 23px;
-  padding: 20px 260px 15px 15px;
+  /* width: 900px;
+  max-width: 100%; */
+  padding: 20px 20px 15px 15px;
   border-radius: 25px;
   color: #60f7f2;
   box-shadow: 0 10px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 .chips {
-  padding: 100px 0 20px 0;
+  padding: 70px 0 20px 0;
 }
 
 .chip-btn {
@@ -109,7 +112,7 @@ h2 {
   height: 100px;
   border-radius: 50%;
   border: none;
-  font-size: 16px;
+  font-size: 20px;
   color: #f4fcfa;
   cursor: pointer;
   box-shadow: 0 10px 3px 0 rgba(0, 0, 0, 0.2);
@@ -173,7 +176,6 @@ h2 {
 input,
 label,
 textarea {
-  font-family: "Ubuntu", sans-serif;
   display: inline;
   margin: 10px;
   padding: 15px 0;
