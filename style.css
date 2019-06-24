@@ -53,7 +53,7 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 50px 50px 50px;
+  padding: 0px 200px 50px 200px;
 }
 
 .player-options {
@@ -118,6 +118,10 @@ h2 {
   box-shadow: 0 10px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
+.chip-btn-blocked {
+  pointer-events: none;
+}
+
 .btn-50 {
   background-image: url("PokerSet/PNGs/chips/small/chip_gray_top.png");
 }
@@ -159,8 +163,8 @@ h2 {
   border: none;
   cursor: pointer;
   color: #60f7f2;
-  font-size: 20px;
-  padding: 8px 28px;
+  font-size: 22px;
+  padding: 20px 28px;
   text-decoration: none;
   /* text-shadow: 0px 1px 0px #535254; */
 }

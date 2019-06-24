@@ -4,13 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"
-    ></script>
-    <script src="JavaScript/card.js"></script>
-    <script src="JavaScript/game.js"></script>
+
     <link rel="stylesheet" href="style.css" />
     <title>BlackJack</title>
   </head>
@@ -19,26 +13,26 @@
       <h2>Dealer</h2>
       <div id="dealer-total">Dealer Total</div>
       <div class="house-hand">
-        <div id="dealer-card-1" class="card"></div>
-        <div id="dealer-card-2" class="card"></div>
+        <div id="dealer-card-1" class="dealerCard card"></div>
+        <div id="dealer-card-2" class="dealerCard card"></div>
       </div>
       <h2>Player</h2>
       <div id="player-total">Player Total</div>
       <div class="player-hand">
-        <div id="player-card-1" class="card"></div>
-        <div id="player-card-2" class="card"></div>
+        <div id="player-card-1" class="playerCard card"></div>
+        <div id="player-card-2" class="playerCard card"></div>
       </div>
     </div>
     <div class="container-player">
       <div class="player-options">
         <div class="player-buttons">
           <div class="top-btn">
-            <button class="action same-width">Hit</button>
-            <button class="action same-width">Stay</button>
+            <button id="hit" class="action same-width">Hit</button>
+            <button id="stay" class="action same-width">Stay</button>
           </div>
           <div class="bottom-btn">
-            <button class="action same-width">Double Down</button>
-            <button class="action same-width">Split</button>
+            <button id="dd" class="action same-width">Double Down</button>
+            <button id="split" class="action same-width">Split</button>
           </div>
         </div>
       </div>
@@ -59,5 +53,12 @@
         /></label>
       </div>
     </div>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="JavaScript/card.js"></script>
+    <script src="JavaScript/game.js"></script>
   </body>
 </html>
