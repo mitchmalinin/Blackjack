@@ -226,15 +226,19 @@ $(document).ready(function() {
 
       //making sure the user has money left
       if (gameOne.totalSplit[1] < 0) {
-        alert("You Cant BET Anymore");
-        gameOne.usedAllChips = true;
-        gameOne.chipTotalAmount.splice($(this), 1);
-        console.log(gameOne.chipTotalAmount);
-        gameOne.totalSplit[1] = 0;
-        $("#chip-count").text(
-          `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
-        );
-        gameOne.canBet = false;
+        if (gameOne.chipTotalAmount.length > 0) {
+          alert("You Cant BET Anymore");
+          gameOne.usedAllChips = true;
+          gameOne.chipTotalAmount.splice($(this), 1);
+          console.log(gameOne.chipTotalAmount);
+          gameOne.totalSplit[1] = 0;
+          setTimeout(() => {
+            $("#chip-count").text(
+              `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
+            );
+          }, 200);
+          gameOne.canBet = false;
+        }
       }
     }
   });
@@ -264,6 +268,8 @@ $(document).ready(function() {
         "background-image",
         "url(./PokerSet/PNGs/decks/small/deck_3.png)"
       );
+    } else {
+      gameOne.canBet == true;
     }
   });
 
@@ -273,7 +279,7 @@ $(document).ready(function() {
   console.log(gameOne.canBet);
   $("#hit").click(function() {
     //FIXME: I cant click this button fast
-    if (gameOne.canBet == false) {
+    if (gameOne.canBet == false && gameOne.chipTotalAmount.length > 0) {
       let newCard = '<div class="playerCard card added"></div>';
       $(".player-hand").append(newCard);
       setTimeout(() => {
@@ -288,7 +294,11 @@ $(document).ready(function() {
 
   //Stand Button
   $("#stay").click(function() {
-    if (gameOne.userHitStand == false && gameOne.canBet == false) {
+    if (
+      gameOne.userHitStand == false &&
+      gameOne.canBet == false &&
+      gameOne.chipTotalAmount.length > 0
+    ) {
       $("#dealer-card-1").css("background-image", "");
       //FIXME: make sure the user can only click thus button once a round
       gameOne.userHitStand = true;
