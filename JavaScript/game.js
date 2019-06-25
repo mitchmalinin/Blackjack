@@ -110,12 +110,18 @@ class Game {
         $(".added").remove();
       }
     } else if (this.playerFinal == 21) {
-      alert("BLACK JACK");
-      this.resetPlayerAndDealerTotals();
-      this.canBet = true;
-      if ($(".playerCard").length > 2) {
-        $(".added").remove();
-      }
+      $("#dealer-card-1").css("background-image", "");
+      this.dealCardToDealer();
+      setTimeout(() => {
+        if (this.playerFinal == 21 && this.dealerFinal != 21) {
+          alert("BLACK JACK, YOU WIN");
+          this.resetPlayerAndDealerTotals();
+          this.canBet = true;
+          if ($(".playerCard").length > 2) {
+            $(".added").remove();
+          }
+        }
+      }, 300);
     } else if (this.dealerFinal == 21) {
       alert("Dealer Hits Blackjack, you lose!");
       this.resetPlayerAndDealerTotals();
@@ -230,6 +236,7 @@ $(document).ready(function() {
       gameOne.userHitStand = true;
       console.log(gameOne.userHitStand);
       gameOne.dealCardToDealer();
+
       runDealerCard();
     }
   });
@@ -244,8 +251,9 @@ $(document).ready(function() {
           gameOne.dealCardToDealer();
         }, 300);
         setTimeout(() => {
-          gameOne.calcWinner();
-        }, 400);
+          //   gameOne.calcWinner();
+          runDealerCard();
+        }, 500);
       } else {
         setTimeout(() => {
           gameOne.calcWinner();
