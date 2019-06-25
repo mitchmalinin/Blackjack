@@ -227,17 +227,15 @@ $(document).ready(function() {
 
       //making sure the user has money left
       if (gameOne.totalSplit[1] < 0) {
-        if (gameOne.chipTotalAmount.length > 0) {
-          alert("You Cant BET Anymore");
-          gameOne.usedAllChips = true;
-          gameOne.chipTotalAmount.splice($(this), 1);
-          console.log(gameOne.chipTotalAmount);
-          gameOne.totalSplit[1] = 0;
-          $("#chip-count").text(
-            `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
-          );
-          gameOne.canBet = false;
-        }
+        alert("You Cant BET Anymore");
+        gameOne.usedAllChips = true;
+        gameOne.chipTotalAmount.splice($(this), 1);
+        console.log(gameOne.chipTotalAmount);
+        gameOne.totalSplit[1] = 0;
+        $("#chip-count").text(
+          `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
+        );
+        gameOne.canBet = true;
       }
     }
   });
