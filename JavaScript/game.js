@@ -17,6 +17,9 @@ class Game {
     this.dealerFinal = 0;
     this.canBet = true;
     this.userHitStand = false;
+    this.totalChips = $("#chip-count").text();
+    this.totalSplit = this.totalChips.split("$");
+    this.chipValue = 0;
   }
 
   //randomize card selection
@@ -109,12 +112,19 @@ class Game {
       if ($(".dealerCard").length > 2) {
         $(".added").remove();
       }
+
+      //adding the bett
+      this.totalSplit[1] = parseInt(this.totalSplit[1]) + this.chipValue * 2; //subtracting user bet from total
+      $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
     } else if (this.playerFinal == 21) {
       $("#dealer-card-1").css("background-image", "");
       this.dealCardToDealer();
       setTimeout(() => {
         if (this.playerFinal == 21 && this.dealerFinal != 21) {
           alert("BLACK JACK, YOU WIN");
+          this.totalSplit[1] =
+            parseInt(this.totalSplit[1]) + this.chipValue * 2; //subtracting user bet from total
+          $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
           this.resetPlayerAndDealerTotals();
           this.canBet = true;
           if ($(".playerCard").length > 2) {
@@ -136,6 +146,8 @@ class Game {
       this.userHitStand = false;
       console.log("The player is more than the dealer");
       alert("Player Wins!");
+      this.totalSplit[1] = parseInt(this.totalSplit[1]) + this.chipValue * 2; //subtracting user bet from total
+      $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
       this.resetPlayerAndDealerTotals();
       this.canBet = true;
       $(".added").remove();
@@ -156,6 +168,8 @@ class Game {
       console.log("yall the same");
       this.userHitStand = false;
       alert("You Pushed");
+      this.totalSplit[1] = parseInt(this.totalSplit[1]) + this.chipValue; //subtracting user bet from total
+      $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
       this.resetPlayerAndDealerTotals();
       this.canBet = true;
       $(".added").remove();
@@ -171,8 +185,7 @@ $(document).ready(function() {
   //   alert("Select a Bet Amount");
 
   //chip counter variables
-  let totalChips = $("#chip-count").text();
-  let totalSplit = totalChips.split("$");
+
   //total Values
 
   //once the user selects a bet price
@@ -181,11 +194,15 @@ $(document).ready(function() {
     if (gameOne.canBet) {
       //Make it so that you can only click a bet amount once per round
       gameOne.canBet = false;
-      let chipValue = parseInt($(this).text()); //removing user bet amount from html
-      totalSplit[1] = parseInt(totalSplit[1]) - chipValue; //subtracting user bet from total
-      $("#chip-count").text(`${totalSplit[0]}$${totalSplit[1]}`); //updating chip amount
+      gameOne.chipValue = parseInt($(this).text()); //removing user bet amount from html
+      console.log(gameOne.chipValue);
+      gameOne.totalSplit[1] =
+        parseInt(gameOne.totalSplit[1]) - gameOne.chipValue; //subtracting user bet from total
+      $("#chip-count").text(
+        `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
+      ); //updating chip amount
       //making sure the user has money left
-      if (totalSplit[1] < 0) {
+      if (gameOne.totalSplit[1] < 0) {
         gameOne.gameOver = true;
         alert("You Loose");
         location.reload();
@@ -206,7 +223,7 @@ $(document).ready(function() {
     //setting back card image to dealer position one
     $("#dealer-card-1").css(
       "background-image",
-      "url(/PokerSet/PNGs/decks/small/deck_3.png)"
+      "url(./PokerSet/PNGs/decks/small/deck_3.png)"
     );
   });
 
