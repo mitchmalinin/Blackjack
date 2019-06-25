@@ -62,6 +62,9 @@ h2 {
   align-items: center;
   justify-content: center;
   padding-top: 40px;
+  position: absolute;
+  bottom: 10px;
+  right: 30px;
 }
 .player-buttons {
   display: flex;
