@@ -13,6 +13,13 @@ h2 {
   border-radius: 2px;
   color: #60f7f2;
 }
+
+/*making the css grid*/
+.make-the-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 3fr 0.9fr;
+  /* grid-column-gap: 1em; */
+}
 .container-house {
   display: flex;
   flex-direction: column;
@@ -61,32 +68,22 @@ h2 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 40px;
-  position: absolute;
-  bottom: 10px;
-  right: 30px;
-}
-.player-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.top-btn {
-  padding-bottom: 10px;
-}
-
-.bottom-btn {
-  padding-bottom: 10px;
+  /* padding: 40px; */
+  background-color: #05a8aa;
 }
 .same-width {
   width: 190px;
-  margin: 5px;
+  margin: 20px 0;
 }
 
 .chip-container {
   text-align: center;
   color: #f4fcfa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #05a8aa;
 }
 
 .chip-container label {
@@ -98,18 +95,27 @@ h2 {
   font-size: 23px;
   /* width: 900px;
   max-width: 100%; */
-  padding: 20px 20px 15px 15px;
+  padding: 20px;
+  /* margin-bottom: 100px; */
   border-radius: 25px;
   color: #60f7f2;
   box-shadow: 0 10px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 .chips {
-  padding: 70px 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10 0px 10px 10px;
+}
+
+.chip-inside-format {
+  display: flex;
 }
 
 .chip-bottom {
-  margin-bottom: 40px;
+  display: flex;
+  padding: 10 10px 10px 0px;
+  flex-direction: column;
 }
 
 .chip-btn {
@@ -117,6 +123,7 @@ h2 {
   background-size: cover;
   width: 100px;
   height: 100px;
+  margin: 10px;
   border-radius: 50%;
   border: none;
   font-size: 20px;
@@ -182,6 +189,11 @@ h2 {
 .action:active {
   position: relative;
   top: 1px;
+}
+
+.all-in {
+  margin-top: 15px;
+  padding: 10px 60px;
 }
 
 input,

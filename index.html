@@ -9,48 +9,45 @@
     <title>BlackJack</title>
   </head>
   <body>
-    <div class="container-house">
-      <h2>Dealer</h2>
-      <div id="dealer-total">Dealer Total</div>
-      <div class="house-hand">
-        <div id="dealer-card-1" class="dealerCard card"></div>
-        <div class="dealerCard card"></div>
-      </div>
-      <h2>Player</h2>
-      <div id="player-total">Player Total</div>
-      <div class="player-hand">
-        <div class="playerCard card"></div>
-        <div class="playerCard card"></div>
-      </div>
-    </div>
-    <div class="container-player">
+    <div class="make-the-grid">
       <div class="player-options">
-        <div class="player-buttons">
-          <div class="top-btn">
-            <button id="hit" class="action same-width">Hit</button>
-            <button id="stay" class="action same-width">Stay</button>
-          </div>
-          <div class="bottom-btn">
-            <button id="dd" class="action same-width">Double Down</button>
-            <button id="split" class="action same-width">Split</button>
-          </div>
+        <button id="hit" class="action same-width">Hit</button>
+        <button id="stay" class="action same-width">Stay</button>
+        <button id="dd" class="action same-width">Double Down</button>
+        <button id="split" class="action same-width">Split</button>
+      </div>
+      <div class="container-house">
+        <h2>Dealer</h2>
+        <div id="dealer-total">Dealer Total</div>
+        <div class="house-hand">
+          <div id="dealer-card-1" class="dealerCard card"></div>
+          <div class="dealerCard card"></div>
+        </div>
+        <h2>Player</h2>
+        <div id="player-total">Player Total</div>
+        <div class="player-hand">
+          <div class="playerCard card"></div>
+          <div class="playerCard card"></div>
         </div>
       </div>
       <div class="chip-container">
         <label id="chip-count" for="#">Chip Count: $1000 </label>
-        <div class="chips">
-          <button class="chip-btn btn-50">1</button>
-          <button class="chip-btn btn-100">5</button>
-          <button class="chip-btn btn-500">25</button>
+        <div class="chip-inside-format">
+          <div class="chips">
+            <button class="chip-btn btn-50">1</button>
+            <button class="chip-btn btn-100">5</button>
+            <button class="chip-btn btn-500">25</button>
+          </div>
+          <div class="chip-bottom">
+            <button class="chip-btn btn-50">50</button>
+            <button class="chip-btn btn-100">100</button>
+            <button class="chip-btn btn-500">500</button>
+          </div>
         </div>
-        <div class="chip-bottom">
-          <button class="chip-btn btn-50">50</button>
-          <button class="chip-btn btn-100">100</button>
-          <button class="chip-btn btn-500">500</button>
-        </div>
-        <button class="action">ALL IN</button>
+        <button class="action all-in">ALL IN</button>
       </div>
     </div>
+
     <script
       src="https://code.jquery.com/jquery-3.4.1.min.js"
       integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
