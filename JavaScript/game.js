@@ -211,6 +211,7 @@ let gameOne = new Game(deckOne);
 //this loads as soon as the document is loaded
 $(document).ready(function() {
   //once the user selects a bet price
+  //FIXME: See if the user has money left in the chip array, if they bet it all then reset
   $(".chip-btn").click(function() {
     //reading user bet
     if (gameOne.canBet) {
@@ -232,11 +233,9 @@ $(document).ready(function() {
           gameOne.chipTotalAmount.splice($(this), 1);
           console.log(gameOne.chipTotalAmount);
           gameOne.totalSplit[1] = 0;
-          setTimeout(() => {
-            $("#chip-count").text(
-              `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
-            );
-          }, 200);
+          $("#chip-count").text(
+            `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
+          );
           gameOne.canBet = false;
         }
       }
