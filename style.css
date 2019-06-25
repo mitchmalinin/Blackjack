@@ -105,6 +105,10 @@ h2 {
   padding: 70px 0 20px 0;
 }
 
+.chip-bottom {
+  margin-bottom: 40px;
+}
+
 .chip-btn {
   background-color: Transparent;
   background-size: cover;

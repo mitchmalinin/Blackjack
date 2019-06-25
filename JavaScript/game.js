@@ -15,6 +15,8 @@ class Game {
     this.dealerTotal = [];
     this.playerFinal = 0;
     this.dealerFinal = 0;
+    this.canBet = true;
+    this.userHitStand = false;
   }
 
   //randomize card selection
@@ -48,6 +50,7 @@ class Game {
 
     //remove used cards
     this.tableDeck.deck.splice(randomCard, 1);
+    console.log(this.tableDeck.deck.length);
   }
 
   //deals the cards to dealer
@@ -70,26 +73,63 @@ class Game {
     }
   }
 
+  //resetting values
+  resetPlayerAndDealerTotals() {
+    this.playerTotal = [];
+    this.playerFinal = 0;
+    this.dealerTotal = [];
+    this.dealerFinal = 0;
+    $(".card").css("background-image", "");
+    $("#player-total").text(`Player Total: ${this.playerFinal}`);
+    $("#dealer-total").text(`Dealer Total: ${this.dealerFinal}`);
+  }
+
   //calculate winner
   calcWinner() {
     if (this.playerFinal > 21) {
-      gameOne.gameOver = true;
+      //this.gameOver = true;
       alert("Player Busts, You Lose!");
-      location.reload();
+      this.resetPlayerAndDealerTotals();
+      if ($(".playerCard").length > 2) {
+        $(".added").remove();
+      }
     } else if (this.dealerFinal > 21) {
-      gameOne.gameOver = true;
+      //   this.gameOne.gameOver = true;
       alert("Dealer Busts, You Win!");
-      location.reload();
+      this.resetPlayerAndDealerTotals();
+      if ($(".dealerCard").length > 2) {
+        $(".added").remove();
+      }
+    } else if (this.playerFinal == 21) {
+      alert("BLACK JACK");
+      this.resetPlayerAndDealerTotals();
+      if ($(".playerCard").length > 2) {
+        $(".added").remove();
+      }
+    } else if (this.dealerFinal == 21) {
+      alert("Dealer Hits Blackjack, you lose!");
+      this.resetPlayerAndDealerTotals();
+      if ($(".dealerCard").length > 2) {
+        $(".added").remove();
+      }
     }
-    //else if (this.playerFinal > this.dealerFinal) {
-    //   gameOne.gameOver = true;
-    //   alert("Player Wins!");
-    //   location.reload();
-    // } else if (this.dealerFinal > this.playerFinal) {
-    //   gameOne.gameOver = true;
-    //   alert("Dealer Wins");
-    //   location.reload();
-    // }
+
+    //TODO: when the dealer cant bet after 17 or hits on 16 and its under 21 run this code
+    else if (this.playerFinal > this.dealerFinal && this.userHitStand == true) {
+      this.userHitStand = false;
+      console.log(this.userHitStand);
+      alert("Player Wins!");
+      this.resetPlayerAndDealerTotals();
+      $(".added").remove();
+    } else if (
+      this.dealerFinal > this.playerFinal &&
+      this.userHitStand == true
+    ) {
+      gameOne.gameOver = true;
+      alert("Dealer Wins");
+      this.resetPlayerAndDealerTotals();
+      $(".added").remove();
+    }
   }
 }
 
@@ -108,16 +148,18 @@ $(document).ready(function() {
   //once the user selects a bet price
   $(".chip-btn").click(function() {
     //reading user bet
-    let chipValue = parseInt($(this).text()); //removing user bet amount from html
-    totalSplit[1] = parseInt(totalSplit[1]) - chipValue; //subtracting user bet from total
-    $("#chip-count").text(`${totalSplit[0]}$${totalSplit[1]}`); //updating chip amount
-    //TODO: Make it so that you can only click a bet amount once per round
-    $(".chip-btn").addClass(".chip-btn-blocked");
-    if (totalSplit[1] < 0) {
+    if (gameOne.canBet) {
+      //Make it so that you can only click a bet amount once per round
+      gameOne.canBet = false;
+      let chipValue = parseInt($(this).text()); //removing user bet amount from html
+      totalSplit[1] = parseInt(totalSplit[1]) - chipValue; //subtracting user bet from total
+      $("#chip-count").text(`${totalSplit[0]}$${totalSplit[1]}`); //updating chip amount
       //making sure the user has money left
-      gameOne.gameOver = true;
-      alert("You Loose");
-      location.reload();
+      if (totalSplit[1] < 0) {
+        gameOne.gameOver = true;
+        alert("You Loose");
+        location.reload();
+      }
     }
 
     //dealing to players
@@ -131,14 +173,50 @@ $(document).ready(function() {
       gameOne.calcWinner();
     }, 1000);
 
+    //setting back card image to dealer position one
     $("#dealer-card-1").css(
       "background-image",
       "url(/PokerSet/PNGs/decks/small/deck_3.png)"
     );
   });
 
-  //TODO: Hit Button
-  //TODO: Stand Button
+  //Hit Button
+  $("#hit").click(function() {
+    //Add a special class to delete
+    let newCard = '<div class="playerCard card added"></div>';
+    $(".player-hand").append(newCard);
+    setTimeout(() => {
+      gameOne.dealCardToPlayer();
+    }, 300);
+    setTimeout(() => {
+      gameOne.calcWinner();
+    }, 400);
+  });
+
+  //Stand Button
+  $("#stay").click(function() {
+    $("#dealer-card-1").css("background-image", "");
+    //FIXME: when the user loses the first time using the userhitstand, the next round it will say who is the winner after dealing the cards wihouth taking user input
+    gameOne.userHitStand = true;
+    gameOne.dealCardToDealer();
+    runDealerCard();
+  });
+
+  function runDealerCard() {
+    setTimeout(() => {
+      //FIXME: why doesnt this work with while
+      if (gameOne.dealerFinal <= 16) {
+        let newCard = '<div class="dealerCard card added"></div>';
+        $(".house-hand").append(newCard);
+        setTimeout(() => {
+          gameOne.dealCardToDealer();
+        }, 300);
+        setTimeout(() => {
+          gameOne.calcWinner();
+        }, 400);
+      }
+    }, 300);
+  }
   //TODO: Double Down Button
   //TODO: Split Button
 });
