@@ -20,6 +20,10 @@ class Game {
     this.totalChips = $("#chip-count").text();
     this.totalSplit = this.totalChips.split("$");
     this.chipValue = 0;
+    this.doneBet = false;
+    this.chipTotalAmount = [];
+    this.finalBetAmount = 0;
+    this.usedAllChips = false;
   }
 
   //randomize card selection
@@ -100,6 +104,7 @@ class Game {
       //this.gameOver = true;
       alert("Player Busts, You Lose!");
       this.resetPlayerAndDealerTotals();
+      this.chipTotalAmount = [];
       this.canBet = true;
       if ($(".playerCard").length > 2) {
         $(".added").remove();
@@ -112,19 +117,24 @@ class Game {
       if ($(".dealerCard").length > 2) {
         $(".added").remove();
       }
-
       //adding the bett
-      this.totalSplit[1] = parseInt(this.totalSplit[1]) + this.chipValue * 2; //subtracting user bet from total
+      this.finalBetAmount = this.calcBetAmount();
+      this.totalSplit[1] =
+        parseInt(this.totalSplit[1]) + this.finalBetAmount * 2; //subtracting user bet from total
       $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
+      this.chipTotalAmount = [];
+      //end of betting
     } else if (this.playerFinal == 21) {
       $("#dealer-card-1").css("background-image", "");
       this.dealCardToDealer();
       setTimeout(() => {
         if (this.playerFinal == 21 && this.dealerFinal != 21) {
           alert("BLACK JACK, YOU WIN");
+          this.finalBetAmount = this.calcBetAmount();
           this.totalSplit[1] =
-            parseInt(this.totalSplit[1]) + this.chipValue * 2; //subtracting user bet from total
+            parseInt(this.totalSplit[1]) + this.finalBetAmount * 2;
           $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
+          this.chipTotalAmount = [];
           this.resetPlayerAndDealerTotals();
           this.canBet = true;
           if ($(".playerCard").length > 2) {
@@ -135,19 +145,25 @@ class Game {
     } else if (this.dealerFinal == 21) {
       alert("Dealer Hits Blackjack, you lose!");
       this.resetPlayerAndDealerTotals();
+      this.chipTotalAmount = [];
       this.canBet = true;
       if ($(".dealerCard").length > 2) {
         $(".added").remove();
       }
-    }
-
-    //TODO: when the dealer cant bet after 17 or hits on 16 and its under 21 run this code
-    else if (this.playerFinal > this.dealerFinal && this.userHitStand == true) {
+    } else if (
+      this.playerFinal > this.dealerFinal &&
+      this.userHitStand == true
+    ) {
       this.userHitStand = false;
       console.log("The player is more than the dealer");
       alert("Player Wins!");
-      this.totalSplit[1] = parseInt(this.totalSplit[1]) + this.chipValue * 2; //subtracting user bet from total
+
+      this.finalBetAmount = this.calcBetAmount();
+      this.totalSplit[1] =
+        parseInt(this.totalSplit[1]) + this.finalBetAmount * 2;
       $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
+      this.chipTotalAmount = [];
+
       this.resetPlayerAndDealerTotals();
       this.canBet = true;
       $(".added").remove();
@@ -159,6 +175,7 @@ class Game {
       this.userHitStand = false;
       alert("Dealer Wins");
       this.resetPlayerAndDealerTotals();
+      this.chipTotalAmount = [];
       this.canBet = true;
       $(".added").remove();
     } else if (
@@ -168,12 +185,23 @@ class Game {
       console.log("yall the same");
       this.userHitStand = false;
       alert("You Pushed");
-      this.totalSplit[1] = parseInt(this.totalSplit[1]) + this.chipValue; //subtracting user bet from total
+
+      this.finalBetAmount = this.calcBetAmount();
+      this.totalSplit[1] = parseInt(this.totalSplit[1]) + this.finalBetAmount; //subtracting user bet from total
       $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
+      this.chipTotalAmount = [];
+
       this.resetPlayerAndDealerTotals();
       this.canBet = true;
       $(".added").remove();
     }
+  }
+  //use this to for calculating total bets
+  calcBetAmount() {
+    let total = this.chipTotalAmount.reduce((a, b) => {
+      return a + b;
+    });
+    return total;
   }
 }
 
@@ -182,50 +210,64 @@ let gameOne = new Game(deckOne);
 
 //this loads as soon as the document is loaded
 $(document).ready(function() {
-  //   alert("Select a Bet Amount");
-
-  //chip counter variables
-
-  //total Values
-
   //once the user selects a bet price
   $(".chip-btn").click(function() {
     //reading user bet
     if (gameOne.canBet) {
       //Make it so that you can only click a bet amount once per round
-      gameOne.canBet = false;
       gameOne.chipValue = parseInt($(this).text()); //removing user bet amount from html
-      console.log(gameOne.chipValue);
+      gameOne.chipTotalAmount.push(gameOne.chipValue);
+      console.log(gameOne.chipTotalAmount);
       gameOne.totalSplit[1] =
         parseInt(gameOne.totalSplit[1]) - gameOne.chipValue; //subtracting user bet from total
       $("#chip-count").text(
         `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
       ); //updating chip amount
+
       //making sure the user has money left
       if (gameOne.totalSplit[1] < 0) {
-        gameOne.gameOver = true;
-        alert("You Loose");
-        location.reload();
+        alert("You Cant BET Anymore");
+        gameOne.usedAllChips = true;
+        gameOne.chipTotalAmount.splice($(this), 1);
+        console.log(gameOne.chipTotalAmount);
+        gameOne.totalSplit[1] = 0;
+        $("#chip-count").text(
+          `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
+        );
+        gameOne.canBet = false;
       }
     }
-
-    //dealing to players
-    setTimeout(() => {
-      gameOne.dealCardToDealer();
-      gameOne.dealCardToPlayer();
-    }, 500);
-
-    //calling the calc winner function to compare values
-    setTimeout(() => {
-      gameOne.calcWinner();
-    }, 1000);
-
-    //setting back card image to dealer position one
-    $("#dealer-card-1").css(
-      "background-image",
-      "url(./PokerSet/PNGs/decks/small/deck_3.png)"
-    );
   });
+
+  //making it so that you can use this button to finish betting
+  $(".bet").click(function() {
+    //this test to see if the user used all the money and has money left
+    if (
+      (gameOne.usedAllChips == false && gameOne.chipTotalAmount.length > 0) ||
+      (gameOne.usedAllChips == true && gameOne.chipTotalAmount.length > 0)
+    ) {
+      gameOne.doneBet = false;
+      gameOne.canBet = false;
+      //dealing to players
+      setTimeout(() => {
+        gameOne.dealCardToDealer();
+        gameOne.dealCardToPlayer();
+      }, 500);
+
+      //calling the calc winner function to compare values
+      setTimeout(() => {
+        gameOne.calcWinner();
+      }, 1000);
+
+      //setting back card image to dealer position one
+      $("#dealer-card-1").css(
+        "background-image",
+        "url(./PokerSet/PNGs/decks/small/deck_3.png)"
+      );
+    }
+  });
+
+  //TODO: ALL in Button
 
   //Hit Button
   console.log(gameOne.canBet);
@@ -248,8 +290,7 @@ $(document).ready(function() {
   $("#stay").click(function() {
     if (gameOne.userHitStand == false && gameOne.canBet == false) {
       $("#dealer-card-1").css("background-image", "");
-      //FIXME: when the user clicks this and the player or dealer dont bust it does nothing until i click the bet button
-      //make sure the user can only click thus button once a round
+      //FIXME: make sure the user can only click thus button once a round
       gameOne.userHitStand = true;
       console.log(gameOne.userHitStand);
       gameOne.dealCardToDealer();
@@ -260,7 +301,6 @@ $(document).ready(function() {
 
   function runDealerCard() {
     setTimeout(() => {
-      //FIXME: why doesnt this work with while
       if (gameOne.dealerFinal <= 16) {
         let newCard = '<div class="dealerCard card added"></div>';
         $(".house-hand").append(newCard);
@@ -268,7 +308,7 @@ $(document).ready(function() {
           gameOne.dealCardToDealer();
         }, 300);
         setTimeout(() => {
-          //   gameOne.calcWinner();
+          //calls this if the dealer total is still under 16
           runDealerCard();
         }, 500);
       } else {

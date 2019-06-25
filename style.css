@@ -26,7 +26,7 @@ h2 {
   /* justify-content: center; */
   align-items: center;
   text-align: center;
-  background-color: #3f3e3f;
+  background-color: #444343;
   color: #f4fcfa;
 }
 
@@ -55,21 +55,13 @@ h2 {
   margin-bottom: 50px;
 }
 
-.container-player {
-  background-color: #05a8aa;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 200px 50px 200px;
-}
-
 .player-options {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   /* padding: 40px; */
-  background-color: #05a8aa;
+  background-color: #302e2d;
 }
 .same-width {
   width: 190px;
@@ -83,7 +75,7 @@ h2 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #05a8aa;
+  background-color: #302e2d;
 }
 
 .chip-container label {
@@ -91,15 +83,26 @@ h2 {
 }
 
 #chip-count {
-  background-color: #3f3e3f;
+  background-color: #302e2d;
   font-size: 23px;
   /* width: 900px;
   max-width: 100%; */
   padding: 15px;
   /* margin-bottom: 100px; */
-  border-radius: 25px;
+  border-radius: 5px;
   color: #60f7f2;
-  box-shadow: 0 10px 3px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 10px 3px rgba(0, 0, 0, 0.2);
+}
+
+#player-options {
+  background-color: #302e2d;
+  font-size: 23px;
+  margin-top: -40px;
+  padding: 15px;
+
+  border-radius: 5px;
+  color: #60f7f2;
+  box-shadow: 0 20px 10px 3px rgba(0, 0, 0, 0.2);
 }
 
 .chips {
@@ -171,20 +174,21 @@ h2 {
 
 /* Button Styling from online editor*/
 .action {
-  box-shadow: 0px 5px 0px 0px #3f3e3f;
-  background-color: #535254;
+  box-shadow: 0px 5px 0px 0px #3bafab;
+  background-color: #60f7f2;
   border-radius: 40px;
   border: none;
   cursor: pointer;
-  color: #60f7f2;
+  color: #3f3e3f;
   font-size: 22px;
-  padding: 20px 28px;
+  padding: 10px 28px;
   text-decoration: none;
   /* text-shadow: 0px 1px 0px #535254; */
 }
 .action:hover {
-  background-color: #60f7f2;
-  color: #3f3e3f;
+  background-color: #302e2d;
+  box-shadow: 0px 5px 0px 0px #60f7f2;
+  color: #60f7f2;
 }
 .action:active {
   position: relative;
@@ -196,6 +200,11 @@ h2 {
   padding: 10px 60px;
 }
 
+.bet {
+  padding: 5px 60px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
 input,
 label,
 textarea {
