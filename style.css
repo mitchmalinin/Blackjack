@@ -30,7 +30,8 @@ h2 {
   text-align: center;
   background-color: #444343;
   color: #f4fcfa;
-  border: 4px solid #60f7f2;
+  border-right: 4px solid #60f7f2;
+  border-left: 4px solid #60f7f2;
 }
 
 .house-hand {
