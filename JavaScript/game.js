@@ -221,7 +221,7 @@ let total = 0;
 //this loads as soon as the document is loaded
 $(document).ready(function() {
   //once the user selects a bet price
-  //FIXME: See if the user has money left in the chip array, if they bet it all then reset
+  //FIXME: once the user has no chips left dont count bets in current bet
   $(".chip-btn").click(function() {
     //reading user bet
     if (gameOne.canBet) {
@@ -252,8 +252,9 @@ $(document).ready(function() {
         gameOne.chipTotalAmount.splice($(this), 1);
         console.log(gameOne.chipTotalAmount);
         //FIXME: if the user has 400 and tried to bet 500, it will say out of chips and set it to 0
+        //FIXME: not being ran, when i hit add all and click button it breaks
         gameOne.totalSplit[1] = 0;
-        $("#chip-count").text(
+        $("#current-bet").text(
           `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
         );
         gameOne.canBet = true;
@@ -299,7 +300,6 @@ $(document).ready(function() {
   $(".all-in").click(function() {
     gameOne.chipTotalAmount.push(gameOne.totalSplit[1]);
     $("#current-bet").text(`Current Bet: $${gameOne.totalSplit[1]}`);
-
     gameOne.totalSplit[1] =
       parseInt(gameOne.totalSplit[1]) - gameOne.totalSplit[1];
     $("#chip-count").text(`${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`);
