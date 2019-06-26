@@ -27,6 +27,10 @@ class Game {
     this.usedAllChips = false;
     this.hasAce = false;
     this.cardValue = 0;
+    this.canHit = true;
+    this.isLocked = false;
+    this.clickStay = false;
+    this.allInClicked = false;
   }
 
   updatePlayerTotal() {
@@ -54,7 +58,7 @@ class Game {
       this.isThereAnAce(target);
       //remove used cards
       this.tableDeck.deck.splice(randomCard, 1);
-      console.log(this.tableDeck.deck.length);
+      // console.log(this.tableDeck.deck.length);
     } else {
       //FIXME: this needs to recret a new deck
       this.tableDeck.deck = this.gameDeck.deck;
@@ -68,7 +72,7 @@ class Game {
       this.playerTotal.push(this.cardValue);
       this.updatePlayerTotal();
       for (let j = 0; j < this.playerTotal.length; j++) {
-        console.log(this.playerTotal);
+        // console.log(this.playerTotal);
         if (this.playerTotal[j] == 11 && this.playerFinal > 21) {
           this.hasAce = true;
           this.playerTotal[j] = 1;
@@ -80,7 +84,7 @@ class Game {
     if (target === "dealer") {
       this.dealerTotal.push(this.cardValue);
       this.updateDealerTotal();
-      //TODO: do the ace
+      // do the ace
       for (let j = 0; j < this.dealerTotal.length; j++) {
         if (this.dealerTotal[j] == 11 && this.dealerFinal > 21) {
           this.hasAce = true;
@@ -122,6 +126,7 @@ class Game {
     this.dealerTotal = [];
     this.dealerFinal = 0;
     this.userHitStand = false;
+    this.allInClicked = false;
     $(".card").css("background-image", "");
     $("#player-total").text(`Player Total: ${this.playerFinal}`);
     $("#dealer-total").text(`Dealer Total: ${this.dealerFinal}`);
@@ -196,7 +201,7 @@ class Game {
         this.userHitStand == true
       ) {
         this.userHitStand = false;
-        console.log("The player is more than the dealer");
+        // console.log("The player is more than the dealer");
         alert("Player Wins!");
 
         this.finalBetAmount = this.calcBetAmount();
@@ -212,7 +217,7 @@ class Game {
         this.dealerFinal > this.playerFinal &&
         this.userHitStand == true
       ) {
-        console.log("The dealer is more than the player");
+        // console.log("The dealer is more than the player");
         this.userHitStand = false;
         alert("Dealer Wins");
         this.resetPlayerAndDealerTotals();
@@ -223,7 +228,7 @@ class Game {
         this.dealerFinal == this.playerFinal &&
         this.userHitStand == true
       ) {
-        console.log("yall the same");
+        // console.log("yall the same");
         this.userHitStand = false;
         alert("You Pushed");
 
@@ -259,7 +264,7 @@ $(document).ready(function() {
       //Make it so that you can only click a bet amount once per round
       gameOne.chipValue = parseInt($(this).text()); //removing user bet amount from html
       gameOne.chipTotalAmount.push(gameOne.chipValue);
-      console.log(gameOne.chipTotalAmount);
+      // console.log(gameOne.chipTotalAmount);
       gameOne.totalSplit[1] =
         parseInt(gameOne.totalSplit[1]) - gameOne.chipValue; //subtracting user bet from total
       $("#chip-count").text(
@@ -286,7 +291,7 @@ $(document).ready(function() {
         gameOne.usedAllChips = true;
         gameOne.chipTotalAmount.pop();
         gameOne.chipTotalAmount.push(gameOne.totalSplit[1] + gameOne.chipValue);
-        console.log(gameOne.chipTotalAmount);
+        // console.log(gameOne.chipTotalAmount);
         $("#current-bet").text(`Current Bet: $${gameOne.calcBetAmount()}`);
         gameOne.totalSplit[1] = 0;
         $("#chip-count").text(
@@ -304,7 +309,9 @@ $(document).ready(function() {
 
   //making it so that you can use this button to finish betting
   $(".bet").click(function() {
+    gameOne.allInClicked = true;
     //this test to see if the user used all the money and has money left
+
     if (
       (gameOne.usedAllChips == false &&
         gameOne.chipTotalAmount.length > 0 &&
@@ -340,51 +347,61 @@ $(document).ready(function() {
 
   //ALL in Button
   $(".all-in").click(function() {
-    if (gameOne.totalSplit[1] > 0) {
-      gameOne.chipTotalAmount.push(gameOne.totalSplit[1]);
-      $("#current-bet").text(`Current Bet: $${gameOne.calcBetAmount()}`);
-      gameOne.totalSplit[1] =
-        parseInt(gameOne.totalSplit[1]) - gameOne.totalSplit[1];
-      $("#chip-count").text(
-        `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
-      );
-      gameOne.usedAllChips = true;
-      gameOne.canBet = false;
+    if (gameOne.allInClicked == false) {
+      if (gameOne.totalSplit[1] > 0) {
+        gameOne.chipTotalAmount.push(gameOne.totalSplit[1]);
+        $("#current-bet").text(`Current Bet: $${gameOne.calcBetAmount()}`);
+        gameOne.totalSplit[1] =
+          parseInt(gameOne.totalSplit[1]) - gameOne.totalSplit[1];
+        $("#chip-count").text(
+          `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
+        );
+        gameOne.usedAllChips = true;
+        gameOne.canBet = false;
+      }
     }
-    console.log(gameOne.chipTotalAmount);
+    // console.log(gameOne.chipTotalAmount);
   });
 
   //Hit Button
-  console.log(gameOne.canBet);
+  // console.log(gameOne.canBet);
   $("#hit").click(function() {
     //FIXME: I cant click this button fast
-    if (gameOne.canBet == false && gameOne.chipTotalAmount.length > 0) {
-      let newCard = '<div class="playerCard card added"></div>';
-      $(".player-hand").append(newCard);
-      setTimeout(() => {
-        gameOne.dealCardToPlayer();
-      }, 300);
+    if (gameOne.isLocked == false) {
+      gameOne.isLocked = true;
+      if (gameOne.canBet == false && gameOne.chipTotalAmount.length > 0) {
+        let newCard = '<div class="playerCard card added"></div>';
+        $(".player-hand").append(newCard);
+        setTimeout(() => {
+          gameOne.dealCardToPlayer();
+        }, 300);
+      }
       setTimeout(() => {
         gameOne.calcWinner();
       }, 350);
     }
-    //Add a special class to delete
+
+    setTimeout(() => {
+      gameOne.isLocked = false;
+    }, 1000);
   });
 
   //Stand Button
   $("#stay").click(function() {
-    if (
-      gameOne.userHitStand == false &&
-      gameOne.canBet == false &&
-      gameOne.chipTotalAmount.length > 0
-    ) {
-      $("#dealer-card-1").css("background-image", "");
-      //FIXME: make sure the user can only click thus button once a round
-      gameOne.userHitStand = true;
-      console.log(gameOne.userHitStand);
-      gameOne.dealCardToDealer();
+    if (gameOne.userHitStand == false) {
+      if (
+        gameOne.userHitStand == false &&
+        gameOne.canBet == false &&
+        gameOne.chipTotalAmount.length > 0
+      ) {
+        $("#dealer-card-1").css("background-image", "");
+        //FIXME: make sure the user can only click thus button once a round
+        gameOne.userHitStand = true;
+        console.log(gameOne.userHitStand);
+        gameOne.dealCardToDealer();
 
-      runDealerCard();
+        runDealerCard();
+      }
     }
   });
 

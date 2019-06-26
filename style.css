@@ -15,12 +15,12 @@ h2 {
 }
 
 #logo {
-  position: absolute;
   width: 200px;
-  left: 0;
-  top: 0;
-  margin-left: 50px;
-  margin-top: 70px;
+}
+
+.logo-options {
+  margin-left: 3.5vw;
+  margin-bottom: 25vh;
 }
 
 /*making the css grid*/
@@ -181,7 +181,8 @@ h2 {
 }
 
 .chip-btn:hover {
-  border: 3px solid #60f7f2;
+  border: 2.5px solid #60f7f2;
+
   transform: scale(1.1);
 }
 
@@ -209,8 +210,8 @@ h2 {
 }
 .action:hover {
   background-color: #302e2d;
-  box-shadow: 0px 5px 0px 0px #60f7f2;
-  color: #60f7f2;
+  color: #fa8aec;
+  box-shadow: 0px 5px 0px 0px #fa8aec;
 }
 .action:active {
   position: relative;
@@ -227,6 +228,7 @@ h2 {
   margin-bottom: 15px;
   margin-top: 15px;
 }
+
 input,
 label,
 textarea {
@@ -240,6 +242,20 @@ textarea {
   color: #fff;
 }
 
+#split {
+  background-color: #fa8aec;
+  box-shadow: 0px 5px 0px 0px #d161c2;
+  color: #fff;
+  display: none;
+}
+#dd {
+  display: none;
+}
+
+#split:hover {
+  background-color: #302e2d;
+  color: #fa8aec;
+}
 input:focus {
   outline: 0;
 }
