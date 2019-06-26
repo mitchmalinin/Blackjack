@@ -19,13 +19,14 @@ class Game {
     this.userHitStand = false;
     this.totalChips = $("#chip-count").text();
     this.totalSplit = this.totalChips.split("$");
+    this.currentBet = $("#current-bet").text();
     this.chipValue = 0;
     this.doneBet = false;
     this.chipTotalAmount = [];
     this.finalBetAmount = 0;
     this.usedAllChips = false;
   }
-
+  //FIXME: do the ace
   //randomize card selection
   giveCard(cardLocation, target) {
     if (this.tableDeck.deck.length > 0) {
@@ -141,6 +142,15 @@ class Game {
             $(".added").remove();
           }
         }
+        if (this.playerFinal == 21 && this.dealerFinal == 21) {
+          alert("Dealer Hits Blackjack, you lose!");
+          this.resetPlayerAndDealerTotals();
+          this.chipTotalAmount = [];
+          this.canBet = true;
+          if ($(".dealerCard").length > 2) {
+            $(".added").remove();
+          }
+        }
       }, 300);
     } else if (this.dealerFinal == 21) {
       alert("Dealer Hits Blackjack, you lose!");
@@ -207,7 +217,7 @@ class Game {
 
 //creating a new game
 let gameOne = new Game(deckOne);
-
+let total = 0;
 //this loads as soon as the document is loaded
 $(document).ready(function() {
   //once the user selects a bet price
@@ -224,13 +234,24 @@ $(document).ready(function() {
       $("#chip-count").text(
         `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
       ); //updating chip amount
-
+      //TODO: update the current bet amount
+      if (gameOne.usedAllChips == false) {
+        total = total + gameOne.chipValue;
+        $("#current-bet").text(`Current Bet: $${total}`);
+      }
+      if (gameOne.usedAllChips == true) {
+        gameOne.calcWinner();
+        gameOne.usedAllChips = false;
+        total = total + gameOne.chipValue;
+        $("#current-bet").text(`Current Bet: $${total}`);
+      }
       //making sure the user has money left
       if (gameOne.totalSplit[1] < 0) {
-        alert("You Cant BET Anymore");
+        alert("Out of Chips");
         gameOne.usedAllChips = true;
         gameOne.chipTotalAmount.splice($(this), 1);
         console.log(gameOne.chipTotalAmount);
+        //FIXME: if the user has 400 and tried to bet 500, it will say out of chips and set it to 0
         gameOne.totalSplit[1] = 0;
         $("#chip-count").text(
           `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
@@ -268,9 +289,22 @@ $(document).ready(function() {
     } else {
       gameOne.canBet == true;
     }
+    total = 0;
+    $("#current-bet").text(`Current Bet: $0`);
   });
 
   //TODO: ALL in Button
+  //FIXME: when the user click all in, the next time they click a chip it wont update the current label with the first click
+  //FIXME: if the user goes all in with chip and the player clicks all in button it overrides to 0
+  $(".all-in").click(function() {
+    gameOne.chipTotalAmount.push(gameOne.totalSplit[1]);
+    $("#current-bet").text(`Current Bet: $${gameOne.totalSplit[1]}`);
+
+    gameOne.totalSplit[1] =
+      parseInt(gameOne.totalSplit[1]) - gameOne.totalSplit[1];
+    $("#chip-count").text(`${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`);
+    gameOne.usedAllChips = true;
+  });
 
   //Hit Button
   console.log(gameOne.canBet);

@@ -18,12 +18,14 @@ h2 {
 .make-the-grid {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
+  height: 100vh;
+
   /* grid-column-gap: 1em; */
 }
 .container-house {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   text-align: center;
   background-color: #444343;
@@ -89,17 +91,19 @@ h2 {
   max-width: 100%; */
   padding: 15px;
   /* margin-bottom: 100px; */
+  position: absolute;
+  top: 0px;
   border-radius: 5px;
   color: #60f7f2;
   box-shadow: 0 20px 10px 3px rgba(0, 0, 0, 0.2);
 }
 
-#player-options {
+#current-bet {
   background-color: #302e2d;
   font-size: 23px;
-  margin-top: -40px;
   padding: 15px;
-
+  position: absolute;
+  top: 0px;
   border-radius: 5px;
   color: #60f7f2;
   box-shadow: 0 20px 10px 3px rgba(0, 0, 0, 0.2);
