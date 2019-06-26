@@ -18,7 +18,6 @@ h2 {
 .make-the-grid {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
-  /* height: 100vh; */
 
   /* grid-column-gap: 1em; */
 }
@@ -109,6 +108,11 @@ h2 {
   border-radius: 5px;
   color: #60f7f2;
   box-shadow: 0 20px 10px 3px rgba(0, 0, 0, 0.2);
+}
+
+#dealer-total,
+#player-total {
+  font-size: 20px;
 }
 
 .chips {

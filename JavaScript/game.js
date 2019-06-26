@@ -221,7 +221,6 @@ let total = 0;
 //this loads as soon as the document is loaded
 $(document).ready(function() {
   //once the user selects a bet price
-  //FIXME: once the user has no chips left dont count bets in current bet
   $(".chip-btn").click(function() {
     //reading user bet
     if (gameOne.canBet) {
@@ -233,8 +232,8 @@ $(document).ready(function() {
         parseInt(gameOne.totalSplit[1]) - gameOne.chipValue; //subtracting user bet from total
       $("#chip-count").text(
         `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
-      ); //updating chip amount
-      //TODO: update the current bet amount
+      );
+      //update the current bet amount
       if (gameOne.usedAllChips == false) {
         total = total + gameOne.chipValue;
         $("#current-bet").text(`Current Bet: $${total}`);
@@ -246,18 +245,27 @@ $(document).ready(function() {
         $("#current-bet").text(`Current Bet: $${total}`);
       }
       //making sure the user has money left
-      if (gameOne.totalSplit[1] < 0) {
-        alert("Out of Chips");
+      if (
+        gameOne.totalSplit[1] < 0 &&
+        gameOne.chipTotalAmount.length > 0 &&
+        gameOne.calcBetAmount() != 0
+      ) {
+        alert("You bet the max");
         gameOne.usedAllChips = true;
-        gameOne.chipTotalAmount.splice($(this), 1);
+        gameOne.chipTotalAmount.pop();
+        gameOne.chipTotalAmount.push(gameOne.totalSplit[1] + gameOne.chipValue);
         console.log(gameOne.chipTotalAmount);
-        //FIXME: if the user has 400 and tried to bet 500, it will say out of chips and set it to 0
-        //FIXME: not being ran, when i hit add all and click button it breaks
+        $("#current-bet").text(`Current Bet: $${gameOne.calcBetAmount()}`);
         gameOne.totalSplit[1] = 0;
-        $("#current-bet").text(
+        $("#chip-count").text(
           `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
         );
+
         gameOne.canBet = true;
+      }
+      if (gameOne.calcBetAmount() == 0) {
+        alert("YOU LOST ALL YOUR MONEY, REFRESHING TO PAGE");
+        location.reload();
       }
     }
   });
@@ -266,8 +274,12 @@ $(document).ready(function() {
   $(".bet").click(function() {
     //this test to see if the user used all the money and has money left
     if (
-      (gameOne.usedAllChips == false && gameOne.chipTotalAmount.length > 0) ||
-      (gameOne.usedAllChips == true && gameOne.chipTotalAmount.length > 0)
+      (gameOne.usedAllChips == false &&
+        gameOne.chipTotalAmount.length > 0 &&
+        gameOne.calcBetAmount() != 0) ||
+      (gameOne.usedAllChips == true &&
+        gameOne.chipTotalAmount.length > 0 &&
+        gameOne.calcBetAmount() != 0)
     ) {
       gameOne.doneBet = false;
       gameOne.canBet = false;
@@ -295,15 +307,19 @@ $(document).ready(function() {
   });
 
   //TODO: ALL in Button
-  //FIXME: when the user click all in, the next time they click a chip it wont update the current label with the first click
-  //FIXME: if the user goes all in with chip and the player clicks all in button it overrides to 0
   $(".all-in").click(function() {
-    gameOne.chipTotalAmount.push(gameOne.totalSplit[1]);
-    $("#current-bet").text(`Current Bet: $${gameOne.totalSplit[1]}`);
-    gameOne.totalSplit[1] =
-      parseInt(gameOne.totalSplit[1]) - gameOne.totalSplit[1];
-    $("#chip-count").text(`${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`);
-    gameOne.usedAllChips = true;
+    if (gameOne.totalSplit[1] > 0) {
+      gameOne.chipTotalAmount.push(gameOne.totalSplit[1]);
+      $("#current-bet").text(`Current Bet: $${gameOne.calcBetAmount()}`);
+      gameOne.totalSplit[1] =
+        parseInt(gameOne.totalSplit[1]) - gameOne.totalSplit[1];
+      $("#chip-count").text(
+        `${gameOne.totalSplit[0]}$${gameOne.totalSplit[1]}`
+      );
+      gameOne.usedAllChips = true;
+      gameOne.canBet = false;
+    }
+    console.log(gameOne.chipTotalAmount);
   });
 
   //Hit Button
