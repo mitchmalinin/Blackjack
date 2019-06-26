@@ -14,6 +14,15 @@ h2 {
   color: #60f7f2;
 }
 
+#logo {
+  position: absolute;
+  width: 200px;
+  left: 0;
+  top: 0;
+  margin-left: 50px;
+  margin-top: 70px;
+}
+
 /*making the css grid*/
 .make-the-grid {
   display: grid;
@@ -123,6 +132,7 @@ h2 {
 
 .chip-inside-format {
   display: flex;
+  margin: 30px 0;
 }
 
 .chip-bottom {
@@ -139,7 +149,7 @@ h2 {
   margin: 10px;
   border-radius: 50%;
   border: none;
-  font-size: 20px;
+  font-size: 23px;
   color: #f4fcfa;
   cursor: pointer;
   box-shadow: 0 10px 3px 0 rgba(0, 0, 0, 0.2);
@@ -150,11 +160,12 @@ h2 {
 }
 
 .btn-50 {
-  background-image: url("PokerSet/PNGs/chips/small/chip_gray_top.png");
+  background-image: url("PokerSet/PNGs/chips/small/NewGuy_teal.png");
+  /* background-size: cover; */
 }
 
 .btn-100 {
-  background-image: url("PokerSet/PNGs/chips/small/chip_gray_top.png");
+  background-image: url("PokerSet/PNGs/chips/small/NewGuy_gray.png");
 }
 
 .btn-500 {

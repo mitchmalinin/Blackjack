@@ -25,8 +25,22 @@ class Game {
     this.chipTotalAmount = [];
     this.finalBetAmount = 0;
     this.usedAllChips = false;
+    this.hasAce = false;
+    this.cardValue = 0;
   }
-  //FIXME: do the ace
+
+  updatePlayerTotal() {
+    this.playerFinal = this.playerTotal.reduce((a, b) => {
+      return a + b;
+    });
+  }
+
+  updateDealerTotal() {
+    this.dealerFinal = this.dealerTotal.reduce((a, b) => {
+      return a + b;
+    });
+  }
+
   //randomize card selection
   giveCard(cardLocation, target) {
     if (this.tableDeck.deck.length > 0) {
@@ -35,28 +49,9 @@ class Game {
         this.tableDeck.deck[randomCard].image
       })`;
 
-      let cardValue = this.tableDeck.deck[randomCard].value;
+      this.cardValue = this.tableDeck.deck[randomCard].value;
 
-      //updating the dealer total
-      if (target === "dealer") {
-        this.dealerTotal.push(cardValue);
-        this.dealerFinal = this.dealerTotal.reduce((a, b) => {
-          return a + b;
-        });
-
-        $("#dealer-total").text(`Dealer Total: ${this.dealerFinal}`);
-      }
-
-      //updating the player total
-      if (target === "player") {
-        this.playerTotal.push(cardValue);
-        this.playerFinal = this.playerTotal.reduce((a, b) => {
-          return a + b;
-        });
-
-        $("#player-total").text(`Player Total: ${this.playerFinal}`);
-      }
-
+      this.isThereAnAce(target);
       //remove used cards
       this.tableDeck.deck.splice(randomCard, 1);
       console.log(this.tableDeck.deck.length);
@@ -65,6 +60,38 @@ class Game {
       this.tableDeck.deck = this.gameDeck.deck;
       console.log("end of deck");
     }
+  }
+
+  isThereAnAce(target) {
+    this.hasAce = false;
+    if (target === "player") {
+      this.playerTotal.push(this.cardValue);
+      this.updatePlayerTotal();
+      for (let j = 0; j < this.playerTotal.length; j++) {
+        console.log(this.playerTotal);
+        if (this.playerTotal[j] == 11 && this.playerFinal > 21) {
+          this.hasAce = true;
+          this.playerTotal[j] = 1;
+          this.updatePlayerTotal();
+        }
+      }
+      $("#player-total").text(`Player Total: ${this.playerFinal}`);
+    }
+    if (target === "dealer") {
+      this.dealerTotal.push(this.cardValue);
+      this.updateDealerTotal();
+      //TODO: do the ace
+      for (let j = 0; j < this.dealerTotal.length; j++) {
+        if (this.dealerTotal[j] == 11 && this.dealerFinal > 21) {
+          this.hasAce = true;
+          this.dealerTotal[j] = 1;
+          this.updateDealerTotal();
+        }
+      }
+      $("#dealer-total").text(`Dealer Total: ${this.dealerFinal}`);
+    }
+
+    return this.hasAce;
   }
 
   //deals the cards to dealer
@@ -83,6 +110,7 @@ class Game {
     for (let i = 0; i < theCards.length; i++) {
       if ($(".playerCard")[i].style.backgroundImage === "") {
         this.giveCard($(".playerCard")[i], "player");
+        //TODO: do the ace
       }
     }
   }
@@ -101,109 +129,113 @@ class Game {
 
   //calculate winner
   calcWinner() {
-    if (this.playerFinal > 21) {
-      //this.gameOver = true;
-      alert("Player Busts, You Lose!");
-      this.resetPlayerAndDealerTotals();
-      this.chipTotalAmount = [];
-      this.canBet = true;
-      if ($(".playerCard").length > 2) {
-        $(".added").remove();
-      }
-    } else if (this.dealerFinal > 21) {
-      //   this.gameOne.gameOver = true;
-      alert("Dealer Busts, You Win!");
-      this.resetPlayerAndDealerTotals();
-      this.canBet = true;
-      if ($(".dealerCard").length > 2) {
-        $(".added").remove();
-      }
-      //adding the bett
-      this.finalBetAmount = this.calcBetAmount();
-      this.totalSplit[1] =
-        parseInt(this.totalSplit[1]) + this.finalBetAmount * 2; //subtracting user bet from total
-      $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
-      this.chipTotalAmount = [];
-      //end of betting
-    } else if (this.playerFinal == 21) {
-      $("#dealer-card-1").css("background-image", "");
-      this.dealCardToDealer();
-      setTimeout(() => {
-        if (this.playerFinal == 21 && this.dealerFinal != 21) {
-          alert("BLACK JACK, YOU WIN");
-          this.finalBetAmount = this.calcBetAmount();
-          this.totalSplit[1] =
-            parseInt(this.totalSplit[1]) + this.finalBetAmount * 2;
-          $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
-          this.chipTotalAmount = [];
-          this.resetPlayerAndDealerTotals();
-          this.canBet = true;
-          if ($(".playerCard").length > 2) {
-            $(".added").remove();
-          }
+    if (!this.hasAce) {
+      if (this.playerFinal > 21) {
+        //this.gameOver = true;
+        alert("Player Busts, You Lose!");
+        this.resetPlayerAndDealerTotals();
+        this.chipTotalAmount = [];
+        this.canBet = true;
+        if ($(".playerCard").length > 2) {
+          $(".added").remove();
         }
-        if (this.playerFinal == 21 && this.dealerFinal == 21) {
-          alert("Dealer Hits Blackjack, you lose!");
-          this.resetPlayerAndDealerTotals();
-          this.chipTotalAmount = [];
-          this.canBet = true;
-          if ($(".dealerCard").length > 2) {
-            $(".added").remove();
-          }
+      } else if (this.dealerFinal > 21) {
+        //   this.gameOne.gameOver = true;
+        alert("Dealer Busts, You Win!");
+        this.resetPlayerAndDealerTotals();
+        this.canBet = true;
+        if ($(".dealerCard").length > 2) {
+          $(".added").remove();
         }
-      }, 300);
-    } else if (this.dealerFinal == 21) {
-      alert("Dealer Hits Blackjack, you lose!");
-      this.resetPlayerAndDealerTotals();
-      this.chipTotalAmount = [];
-      this.canBet = true;
-      if ($(".dealerCard").length > 2) {
+        //adding the bett
+        this.finalBetAmount = this.calcBetAmount();
+        this.totalSplit[1] =
+          parseInt(this.totalSplit[1]) + this.finalBetAmount * 2; //subtracting user bet from total
+        $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
+        this.chipTotalAmount = [];
+        //end of betting
+      } else if (this.playerFinal == 21) {
+        $("#dealer-card-1").css("background-image", "");
+        this.dealCardToDealer();
+        setTimeout(() => {
+          if (this.playerFinal == 21 && this.dealerFinal != 21) {
+            alert("BLACK JACK, YOU WIN");
+            this.finalBetAmount = this.calcBetAmount();
+            this.totalSplit[1] =
+              parseInt(this.totalSplit[1]) + this.finalBetAmount * 2;
+            $("#chip-count").text(
+              `${this.totalSplit[0]}$${this.totalSplit[1]}`
+            );
+            this.chipTotalAmount = [];
+            this.resetPlayerAndDealerTotals();
+            this.canBet = true;
+            if ($(".playerCard").length > 2) {
+              $(".added").remove();
+            }
+          }
+          if (this.playerFinal == 21 && this.dealerFinal == 21) {
+            alert("Dealer Hits Blackjack, you lose!");
+            this.resetPlayerAndDealerTotals();
+            this.chipTotalAmount = [];
+            this.canBet = true;
+            if ($(".dealerCard").length > 2) {
+              $(".added").remove();
+            }
+          }
+        }, 300);
+      } else if (this.dealerFinal == 21) {
+        alert("Dealer Hits Blackjack, you lose!");
+        this.resetPlayerAndDealerTotals();
+        this.chipTotalAmount = [];
+        this.canBet = true;
+        if ($(".dealerCard").length > 2) {
+          $(".added").remove();
+        }
+      } else if (
+        this.playerFinal > this.dealerFinal &&
+        this.userHitStand == true
+      ) {
+        this.userHitStand = false;
+        console.log("The player is more than the dealer");
+        alert("Player Wins!");
+
+        this.finalBetAmount = this.calcBetAmount();
+        this.totalSplit[1] =
+          parseInt(this.totalSplit[1]) + this.finalBetAmount * 2;
+        $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
+        this.chipTotalAmount = [];
+
+        this.resetPlayerAndDealerTotals();
+        this.canBet = true;
+        $(".added").remove();
+      } else if (
+        this.dealerFinal > this.playerFinal &&
+        this.userHitStand == true
+      ) {
+        console.log("The dealer is more than the player");
+        this.userHitStand = false;
+        alert("Dealer Wins");
+        this.resetPlayerAndDealerTotals();
+        this.chipTotalAmount = [];
+        this.canBet = true;
+        $(".added").remove();
+      } else if (
+        this.dealerFinal == this.playerFinal &&
+        this.userHitStand == true
+      ) {
+        console.log("yall the same");
+        this.userHitStand = false;
+        alert("You Pushed");
+
+        this.finalBetAmount = this.calcBetAmount();
+        this.totalSplit[1] = parseInt(this.totalSplit[1]) + this.finalBetAmount; //subtracting user bet from total
+        $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
+        this.chipTotalAmount = [];
+
+        this.resetPlayerAndDealerTotals();
+        this.canBet = true;
         $(".added").remove();
       }
-    } else if (
-      this.playerFinal > this.dealerFinal &&
-      this.userHitStand == true
-    ) {
-      this.userHitStand = false;
-      console.log("The player is more than the dealer");
-      alert("Player Wins!");
-
-      this.finalBetAmount = this.calcBetAmount();
-      this.totalSplit[1] =
-        parseInt(this.totalSplit[1]) + this.finalBetAmount * 2;
-      $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
-      this.chipTotalAmount = [];
-
-      this.resetPlayerAndDealerTotals();
-      this.canBet = true;
-      $(".added").remove();
-    } else if (
-      this.dealerFinal > this.playerFinal &&
-      this.userHitStand == true
-    ) {
-      console.log("The dealer is more than the player");
-      this.userHitStand = false;
-      alert("Dealer Wins");
-      this.resetPlayerAndDealerTotals();
-      this.chipTotalAmount = [];
-      this.canBet = true;
-      $(".added").remove();
-    } else if (
-      this.dealerFinal == this.playerFinal &&
-      this.userHitStand == true
-    ) {
-      console.log("yall the same");
-      this.userHitStand = false;
-      alert("You Pushed");
-
-      this.finalBetAmount = this.calcBetAmount();
-      this.totalSplit[1] = parseInt(this.totalSplit[1]) + this.finalBetAmount; //subtracting user bet from total
-      $("#chip-count").text(`${this.totalSplit[0]}$${this.totalSplit[1]}`);
-      this.chipTotalAmount = [];
-
-      this.resetPlayerAndDealerTotals();
-      this.canBet = true;
-      $(".added").remove();
     }
   }
   //use this to for calculating total bets
@@ -306,7 +338,7 @@ $(document).ready(function() {
     $("#current-bet").text(`Current Bet: $0`);
   });
 
-  //TODO: ALL in Button
+  //ALL in Button
   $(".all-in").click(function() {
     if (gameOne.totalSplit[1] > 0) {
       gameOne.chipTotalAmount.push(gameOne.totalSplit[1]);
