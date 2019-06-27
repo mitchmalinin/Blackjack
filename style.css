@@ -51,6 +51,11 @@ h2 {
   font-size: 30px;
   padding-top: 30px;
   color: #fff;
+  transition: all 0.3s ease;
+}
+
+.fa-egg:hover {
+  color: #fa8aec;
 }
 
 .filter:hover {

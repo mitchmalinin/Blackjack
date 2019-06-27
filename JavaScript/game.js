@@ -58,6 +58,7 @@ class Game {
       this.isThereAnAce(target);
       //remove used cards
       this.tableDeck.deck.splice(randomCard, 1);
+
       // console.log(this.tableDeck.deck.length);
     } else {
       //FIXME: this needs to recret a new deck
